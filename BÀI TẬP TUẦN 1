@@ -1,0 +1,139 @@
+1. Mong muốn và định hướng của Bạn là gì sau khi họcxong môn học là gì?
+  + Có thể nắm chắc các kiến thức cơ bản và phát triển ứng dụng trên thiết bị di động
+  + Về định hướng thì em có thể tiếp học thêm về lập trình Android, UI/UX và kết nối cơ sở dữ liệu để nâng cao kỹ năng. 
+
+2. Theo bạn, trong tương lai gần (10 năm) lập trình di động có phát triển không? Giải thích tại sao?
+  + Theo em trong tương lai gần (10 năm) lập trình di động có phát triển rất mạnh.
+  + Bởi vì trong tương lại và hiện tại thiết bị di động là 1 vất là khá quan trọng nó phổ biến hầu hết trong tất cả cá lĩnh vực từ giáo dục, liên lạc, nngana hàng,..vv.Và nó có kích thước nhỏ gọn để mang đi mọi.Vì vậy, nhu cầu về ứng dụng di động và nhân lực lập trình di động vẫn sẽ tăng trong tương lai. 
+
+3. Viết một ứng dụng co UI như sau đay len github
+package com.example.profile
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+private val ScreenBg = Color(0xFFF8FAFC)
+private val AvatarBg = Color(0xFFCFE3F5)
+private val Accent = Color(0xFF1FA67A)
+private val BorderGray = Color(0xFFE2E5E9)
+
+@Composable
+fun ProfileScreen(
+    name: String,
+    studentId: String,
+    avatarRes: Int,
+    onBack: () -> Unit,
+    onEdit: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ScreenBg)
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        // Top bar
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            SquareIconButton(
+                onClick = onBack,
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.Black,
+                borderColor = BorderGray,
+            )
+            SquareIconButton(
+                onClick = onEdit,
+                icon = Icons.Outlined.Edit,
+                contentDescription = "Edit profile",
+                tint = Accent,
+                borderColor = Accent.copy(alpha = 0.4f),
+            )
+        }
+
+        Spacer(Modifier.height(56.dp))
+
+        // Avatar
+        Image(
+            painter = painterResource(avatarRes),
+            contentDescription = "Avatar",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(136.dp)
+                .clip(CircleShape)
+                .background(AvatarBg),
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            text = name,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF111111),
+        )
+        Spacer(Modifier.height(2.dp))
+        Text(
+            text = studentId,
+            fontSize = 16.sp,
+            color = Color(0xFF6B7280),
+        )
+    }
+}
+
+@Composable
+private fun SquareIconButton(
+    onClick: () -> Unit,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    contentDescription: String,
+    tint: Color,
+    borderColor: Color,
+) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(10.dp),
+        color = Color.White,
+        border = BorderStroke(1.dp, borderColor),
+        modifier = Modifier.size(40.dp),
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(icon, contentDescription, tint = tint, modifier = Modifier.size(18.dp))
+        }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 360, heightDp = 740)
+@Composable
+private fun ProfileScreenPreview() {
+    MaterialTheme {
+        ProfileScreen(
+            name = "Nguyễn Minh Anh",
+            studentId = "SV0123456",
+            avatarRes = android.R.drawable.sym_def_app_icon, // replace with R.drawable.your_avatar
+            onBack = {},
+            onEdit = {},
+        )
+    }
+}
